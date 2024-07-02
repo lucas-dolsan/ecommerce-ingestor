@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  auth:
+    build: ./auth
+    ports:
+      - "4001:4001"
+    environment:
+      - JWT_SECRET=segredo
+      - PORT=4001
+      - ENABLE_ADMIN=true
+    networks:
+      - app-network
+
+  ingestion-api:
+    build: ./ingestion-api
+    ports:
+      - "4000:4000"
+    volumes:
+      - data:/app/data
+    depends_on:
+      - ingestion-queue
+      - database
+      - auth
+    environment:
+      - AUTH_SERVICE_URL=http://auth:4001
+      - PORT=4000
+      - INGESTION_QUEUE_URL=amqp://ingestion-queue
+      - DB_HOST=mongodb://database
+      - DB_NAME=development
+    networks:
+      - app-network
+
+  ingestion-worker:
+    build: ./ingestion-worker
+    volumes:
+      - data:/app/data
+    depends_on:
+      - ingestion-queue
+      - database
+      - auth
+    environment:
+      - QUEUE_HOST=ingestion-queue
+      - DB_HOST=mongodb://database
+      - DB_NAME=development
+      - INGESTION_QUEUE_URL=amqp://ingestion-queue
+    networks:
+      - app-network
+
+  ingestion-queue:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+  database:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  ingestion-ui:
+    build: ./ingestion-ui
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:4000
+      - REACT_APP_AUTH_URL=http://localhost:4001
+      - REACT_APP_ENABLE_ADMIN=true
+    networks:
+      - app-network
+
+  report-and-alerts:
+    build: ./report-and-alerts
+    depends_on:
+      - database
+    environment:
+      - QUEUE_HOST=ingestion-queue
+      - DB_HOST=mongodb://database
+      - DB_NAME=development
+      - INGESTION_QUEUE_URL=amqp://ingestion-queue
+      - CRONJOB_PATTERN=*/1 * * * *
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  data:

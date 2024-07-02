@@ -1,0 +1,26 @@
+{
+  "name": "ingestion-worker",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "amqplib": "^0.7.1",
+    "dotenv": "^16.4.5",
+    "mongodb": "^4.17.2",
+    "stream-json": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^16.18.97",
+    "typescript": "^4.5.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
