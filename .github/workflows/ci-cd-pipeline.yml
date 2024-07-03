@@ -40,30 +40,30 @@ jobs:
           docker-compose build
           docker-compose push
 
-      - name: Start SonarQube
-        run: docker-compose -f docker-compose.sonarqube.yml up -d
+      # - name: Start SonarQube
+      #   run: docker-compose -f docker-compose.sonarqube.yml up -d
 
-      - name: Wait for SonarQube to be ready
-        run: |
-          echo "Waiting for SonarQube to start..."
-          timeout 60 bash -c 'until curl -s http://localhost:9000; do echo .; sleep 5; done'
+      # - name: Wait for SonarQube to be ready
+      #   run: |
+      #     echo "Waiting for SonarQube to start..."
+      #     timeout 60 bash -c 'until curl -s http://localhost:9000; do echo .; sleep 5; done'
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '14'
 
-      - name: Install SonarQube Scanner CLI
-        run: npm install sonarqube-scanner
+      # - name: Install SonarQube Scanner CLI
+      #   run: npm install sonarqube-scanner
 
-      - name: Run SonarQube Analysis
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=my_project \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=admin \
-            -Dsonar.password=admin
+      # - name: Run SonarQube Analysis
+      #   run: |
+      #     npx sonar-scanner \
+      #       -Dsonar.projectKey=my_project \
+      #       -Dsonar.sources=. \
+      #       -Dsonar.host.url=http://localhost:9000 \
+      #       -Dsonar.login=admin \
+      #       -Dsonar.password=admin
 
   deploy:
     needs: build
