@@ -3,11 +3,13 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - master
       - develop
   pull_request:
     branches:
+      - master
       - develop
+  workflow_dispatch:  # This allows the workflow to be manually triggered
 
 jobs:
   build:
@@ -79,8 +81,9 @@ jobs:
       - name: Terraform Init and Apply
         run: |
           cd terraform
-          terraform init
-          terraform apply -auto-approve
+          terraform init -backend-config="key=${{ github.ref }}.tfstate"
+          terraform workspace select ${{ github.ref }} || terraform workspace new ${{ github.ref }}
+          terraform apply -auto-approve -var "environment=${{ github.ref }}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
