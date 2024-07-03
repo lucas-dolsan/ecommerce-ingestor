@@ -7,7 +7,7 @@ resource "aws_instance" "app" {
   instance_type = var.instance_type
 
   tags = {
-    Name = "ecommerce-ingestor"
+    Name = var.app_name
   }
 }
 
