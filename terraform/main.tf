@@ -65,10 +65,11 @@ resource "aws_instance" "app" {
   ami           = var.ami
   instance_type = var.instance_type
   security_groups = [aws_security_group.app_sg.name]
-
-  tags = {
-    Name = var.app_name
-  }
+  user_data = <<-EOF
+              #!/bin/bash
+              cd /home/ec2-user/ecommerce-ingestor
+              docker-compose up -d
+              EOF
 }
 
 output "instance_public_ip" {
