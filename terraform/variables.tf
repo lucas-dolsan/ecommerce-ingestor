@@ -3,11 +3,11 @@ variable "aws_region" {
 }
 
 variable "ami" {
-  default     = "ami-070f589e4b4a3fece"
+  default     = "ami-0ac80df6eff0e70b5"
 }
 
 variable "instance_type" {
-  default     = "a1.micro"
+  default     = "t2.micro"
 }
 
 variable "environment" {
