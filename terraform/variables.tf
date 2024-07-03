@@ -12,6 +12,7 @@ variable "instance_type" {
 
 variable "environment" {
   type        = string
+  default     = "dev"
 }
 
 variable "app_name" {
