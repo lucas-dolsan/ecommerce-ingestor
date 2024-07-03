@@ -99,5 +99,6 @@ jobs:
 
       - name: Check Docker Compose Services
         run: |
+          docker-compose up -d
           docker-compose ps
           docker-compose logs
