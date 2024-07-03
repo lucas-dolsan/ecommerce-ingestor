@@ -17,12 +17,6 @@ resource "aws_instance" "app" {
   security_groups = [var.security_group_id]
   user_data = <<-EOF
               #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y git docker
-              sudo service docker start
-              sudo usermod -a -G docker ec2-user
-              curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
               cd /home/ec2-user/ecommerce-ingestor
               docker-compose up -d
               EOF
