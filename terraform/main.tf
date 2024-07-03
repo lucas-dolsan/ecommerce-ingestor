@@ -1,12 +1,18 @@
 provider "aws" {
-  region = "us-west-2"
+  region = var.aws_region
 }
 
 resource "aws_instance" "app" {
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
+  ami           = var.ami
+  instance_type = var.instance_type
 
   tags = {
     Name = "ecommerce-ingestor"
+  }
+}
+
+terraform {
+  backend "local" {
+    path = "terraform.tfstate"
   }
 }
