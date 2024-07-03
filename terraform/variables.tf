@@ -17,3 +17,7 @@ variable "environment" {
 variable "app_name" {
   default     = "ecommerce-ingestor"
 }
+
+variable "vpc_id" {
+  default     = "vpc-017dfafe202a84620"
+}
