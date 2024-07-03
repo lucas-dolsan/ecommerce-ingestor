@@ -88,7 +88,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_aws_region: us-east-1
           TF_VAR_ami: ami-070f589e4b4a3fece
-          TF_VAR_instance_type: t2.micro
+          TF_VAR_instance_type: a1.micro
 
       - name: Deploy with Docker Compose
         run: docker-compose up -d
