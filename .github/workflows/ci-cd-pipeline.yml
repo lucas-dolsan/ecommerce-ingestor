@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
       - develop
   pull_request:
     branches:
@@ -48,9 +48,15 @@ jobs:
           echo "Waiting for SonarQube to start..."
           timeout 60 bash -c 'until curl -s http://localhost:9000; do echo .; sleep 5; done'
 
+      - name: Install SonarQube Scanner CLI
+        run: |
+          curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          sudo npm install -g sonarqube-scanner
+
       - name: Run SonarQube Analysis
         run: |
-          sonar-scanner \
+          sonarqube-scanner \
             -Dsonar.projectKey=my_project \
             -Dsonar.sources=. \
             -Dsonar.host.url=http://localhost:9000 \
@@ -74,6 +80,8 @@ jobs:
           terraform init
           terraform apply -auto-approve
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_environment: ${{ github.ref }}
 
       - name: Deploy with Docker Compose
