@@ -14,7 +14,7 @@ provider "aws" {
 resource "aws_instance" "app" {
   ami           = var.ami
   instance_type = var.instance_type
-  security_groups = [aws_security_group.app_sg.id]
+  vpc_security_group_ids = [aws_security_group.app_sg.id]
   user_data = <<-EOF
               #!/bin/bash
               cd /home/ec2-user/ecommerce-ingestor
