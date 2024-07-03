@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   auth:
-    build: ./auth
+    image: lucasdolsan/auth:latest
     ports:
       - "4001:4001"
     environment:
@@ -13,7 +13,7 @@ services:
       - app-network
 
   ingestion-api:
-    build: ./ingestion-api
+    image: lucasdolsan/ingestion-api:latest
     ports:
       - "4000:4000"
     volumes:
@@ -32,7 +32,7 @@ services:
       - app-network
 
   ingestion-worker:
-    build: ./ingestion-worker
+    image: lucasdolsan/ingestion-worker:latest
     volumes:
       - data:/app/data
     depends_on:
@@ -63,7 +63,7 @@ services:
       - app-network
 
   ingestion-ui:
-    build: ./ingestion-ui
+    image: lucasdolsan/ingestion-ui:latest
     ports:
       - "3000:3000"
     environment:
@@ -74,7 +74,7 @@ services:
       - app-network
 
   report-and-alerts:
-    build: ./report-and-alerts
+    image: lucasdolsan/report-and-alerts:latest
     depends_on:
       - database
     environment:

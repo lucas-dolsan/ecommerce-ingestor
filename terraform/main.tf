@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
 provider "aws" {
   region = var.aws_region
 }
@@ -70,6 +79,10 @@ resource "aws_instance" "app" {
               cd /home/ec2-user/ecommerce-ingestor
               docker-compose up -d
               EOF
+
+  tags = {
+    Name = var.app_name
+  }
 }
 
 output "instance_public_ip" {
