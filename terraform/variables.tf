@@ -22,7 +22,3 @@ variable "app_name" {
 variable "vpc_id" {
   default     = "vpc-017dfafe202a84620"
 }
-
-variable "security_group_id" {
-  default     = "sg-0c503285f91faa830"
-}
