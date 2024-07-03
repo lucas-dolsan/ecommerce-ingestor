@@ -9,7 +9,7 @@ on:
     branches:
       - master
       - develop
-  workflow_dispatch:  # This allows the workflow to be manually triggered
+  workflow_dispatch:  # allows manual triggered
 
 jobs:
   build:
@@ -45,8 +45,8 @@ jobs:
       - name: Deploy with Docker Compose
         run: |
           docker-compose up -d
-          sleep 10  # Give some time for services to start
-          docker-compose logs  # Fetch logs to check for any issues
+          sleep 20  # wait for services to start
+          docker-compose logs # print logs  
 
       # - name: Start SonarQube
       #   run: docker-compose -f docker-compose.sonarqube.yml up -d
